@@ -1,0 +1,226 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <title>PyLink {% block title %}{% endblock title %}</title>
+
+        <!-- CSS FILES -->        
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Open+Sans&display=swap" rel="stylesheet">
+                        
+        <!-- <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet"> -->
+
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+
+        <link href="{% static 'css/bootstrap-icons.css' %}" rel="stylesheet">
+
+        <link href="{% static 'css/style.css' %}" rel="stylesheet">    
+
+        <link rel="icon" type="image/x-icon" href="{% static 'images/link_broken.png' %}">   
+
+    </head>
+    
+    <body id="top">
+
+        <main>
+
+            <nav class="navbar navbar-expand-lg">
+                <div class="container">
+                    <a class="navbar-brand" href="{% url 'core:index' %}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-dasharray="28" stroke-dashoffset="28" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 6l2 -2c1 -1 3 -1 4 0l1 1c1 1 1 3 0 4l-5 5c-1 1 -3 1 -4 0M11 18l-2 2c-1 1 -3 1 -4 0l-1 -1c-1 -1 -1 -3 0 -4l5 -5c1 -1 3 -1 4 0"><animate fill="freeze" attributeName="stroke-dashoffset" dur="1.05s" values="28;0"/></path></svg>
+
+                        <span>PyLink</span>
+                    </a>
+
+                    <div class="custom-dropdown-center d-lg-none ms-auto me-4">
+                      <a href="" class="navbar-icon bi-person smoothscroll dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"></a>
+                      <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Profile</a></li>
+                        <li><a class="dropdown-item custom-delete-button" href="{% url 'core:signout' %}">Sign-Out</a></li>
+                      </ul>
+                    </div>
+    
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+    
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav ms-lg-5 me-lg-auto">
+                            <li class="nav-item">
+                                <a class="nav-link click-scroll" href="/#section_1">Home</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link click-scroll" href="/#section_2">My URLs</a>
+                            </li>
+    
+                            <li class="nav-item">
+                                <a class="nav-link click-scroll" href="/#section_3">How it works</a>
+                            </li>
+    
+                            <li class="nav-item">
+                                <a class="nav-link click-scroll" href="#section_4">Contact</a>
+                            </li>
+                        </ul>
+
+                        {% if not request.user.is_authenticated %}
+                        <div class="collapse navbar-collapse" id="navbarNav">
+                            <ul class="navbar-nav ms-lg-5 me-lg-auto">
+                                <li class="nav-item">
+                                    <a class="nav-link click-scroll" href="{% url 'core:signin' %}">Sign-In</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link click-scroll" href="{% url 'core:signup' %}">Sign-Up</a>
+                                </li>
+                            </ul>
+                        </div>
+                        {% else %}
+                        <div class="custom-dropdown-center d-lg-inline-block d-none">
+                          <a href="" class="navbar-icon bi-person smoothscroll dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"></a>
+                          <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Profile</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item custom-delete-button" href="{% url 'core:signout' %}">Sign-Out</a></li>
+                          </ul>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </nav>
+            
+            {% block content %}
+            {% endblock content %}
+
+            <section class="section-padding section-bg" id="section_4">
+                <div class="container">
+                    <div class="row justify-content-center">
+
+                        <div class="col-lg-12 col-12 text-center">
+                            <h2 class="mb-5">Get in touch</h2>
+                        </div>
+
+                        <div class="col-lg-12 col-12 text-center">
+                            <h3 class="mb-4 pb-2">We'd love to hear from you</h3>
+                        </div>
+
+                        <div class="col-lg-6 col-12">
+                            <form action="" method="POST" class="custom-form contact-form">
+                                {% csrf_token %}
+                                <input type="hidden" value="contact" name="concern">
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6 col-12">
+                                        <div class="form-floating">
+                                            <input type="text" name="name" id="name" class="form-control" placeholder="Name" required="">
+                                            
+                                            <label for="floatingInput">Name</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-6 col-md-6 col-12"> 
+                                        <div class="form-floating">
+                                            <input type="email" name="email" id="email" pattern="[^ @]*@[^ @]*" class="form-control" placeholder="Email address" required="">
+                                            
+                                            <label for="floatingInput">Email address</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-12 col-12">
+                                        <div class="form-floating">
+                                            <input type="text" name="subject" id="name" class="form-control" placeholder="Name" required="">
+                                            
+                                            <label for="floatingInput">Subject</label>
+                                        </div>
+
+                                        <div class="form-floating">
+                                            <textarea class="form-control" id="message" name="message" placeholder="Tell me about the project"></textarea>
+                                            
+                                            <label for="floatingTextarea">Tell me about the project</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-4 col-12 ms-auto">
+                                        <button type="submit" class="form-control">Submit</button>
+                                    </div>
+
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+<footer class="site-footer section-padding">
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-lg-3 col-12 mb-4 pb-2">
+                        <a class="navbar-brand" href="#section_1">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-dasharray="28" stroke-dashoffset="28" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 6l2 -2c1 -1 3 -1 4 0l1 1c1 1 1 3 0 4l-5 5c-1 1 -3 1 -4 0M11 18l-2 2c-1 1 -3 1 -4 0l-1 -1c-1 -1 -1 -3 0 -4l5 -5c1 -1 3 -1 4 0"><animate fill="freeze" attributeName="stroke-dashoffset" dur="1.05s" values="28;0"/></path></svg>
+
+                            <span>PyLink</span>
+                        </a>
+
+                    </div>
+
+
+                    <div class="col-lg-3 col-md-4 col-6">
+                        <h6 class="site-footer-title mb-3">Resources</h6>
+
+                        <ul class="site-footer-links">
+                            <li class="site-footer-link-item">
+                                <a href="#" class="site-footer-link">Home</a>
+                            </li>
+
+                            <li class="site-footer-link-item">
+                                <a href="#section_3" class="site-footer-link">How it works</a>
+                            </li>
+
+                            <li class="site-footer-link-item">
+                                <a href="#section_4" class="site-footer-link">Contact</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="col-lg-3 col-md-4 col-6 mb-4 mb-lg-0">
+                        <h6 class="site-footer-title mb-3">Information</h6>
+
+                        <p class="text-white d-flex">
+                            <a href="mailto:jose.contreras.p25@gmail.com" class="site-footer-link">
+                                jose.contreras.p25@gmail.com
+                            </a>
+                        </p>
+
+                        <p class="text-white d-flex">
+                            <a href="https://josecontreras.is-a.dev/" class="site-footer-link" target="_blank">
+                                portfolio
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+
+        <!-- JAVASCRIPT FILES -->
+        <script src="{% static 'js/jquery.min.js' %}"></script>
+        <!-- <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script> -->
+        <script src="{% static 'js/jquery.sticky.js' %}"></script>
+        <script src="{% static 'js/click-scroll.js' %}"></script>
+        <script src="{% static 'js/custom.js' %}"></script>
+        <script src="{% static 'js/main.js' %}"></script>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
+
+    </body>
+</html>

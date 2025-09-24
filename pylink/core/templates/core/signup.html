@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %} | Signup{% endblock title %}
+
+{% block content %}
+
+{% include 'core/snippets/header.html' with title="Sign-Up Form" breadcrumb="Sign-Up Form" %}
+
+
+<section class="section-padding section-bg">
+    <div class="container">
+        <div class="row justify-content-center">
+
+            {% include 'core/snippets/guest_button.html' %}
+
+            <div class="col-lg-6 col-12">
+                <form action="#" method="post" class="custom-form contact-form" role="form">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-12">
+                            <div class="form-floating">
+                                <input type="text" name="username" id="username" class="form-control" placeholder="Username" required="">
+                                
+                                <label for="floatingInput">Username</label>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12 col-md-12 col-12"> 
+                            <div class="form-floating">
+                                <input type="password" id="password1" name="password1" class="form-control" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one  number and one uppercase and lowercase letter, and at least 8 or more characters" placeholder="Password" required>
+                                
+                                <label for="floatingInput">Password</label>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12 col-md-12 col-12"> 
+                            <div class="form-floating">
+                                <input type="password" id="password2" name="password2" class="form-control" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one  number and one uppercase and lowercase letter, and at least 8 or more characters" placeholder="Repeat Password">
+                                
+                                <label for="floatingInput">Repeat Password</label>
+                            </div>
+                        </div>
+
+                        <input type="hidden" value="false" name="guest">
+
+                        <div class="col-lg-4 col-12 ms-auto">
+                            <button type="submit" class="form-control">Submit</button>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+{% endblock content %}

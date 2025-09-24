@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %} | signin{% endblock title %}
+
+{% block content %}
+
+{% include 'core/snippets/header.html' with title="Sign-In Form" breadcrumb="Sign-In Form" %}
+
+<section class="section-padding section-bg">
+    <div class="container">
+        <div class="row justify-content-center">
+
+            {% include 'core/snippets/guest_button.html' %}
+
+            <div class="col-lg-6 col-12">
+                <form action="#" method="post" class="custom-form contact-form" role="form">
+                    {% csrf_token %}
+
+                    {% if error %}
+                        <div class="mb-3 p-3 rounded-pill" id="error">
+                            {{ error }}
+                        </div>
+                    {% endif %}
+
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-12">
+                            <div class="form-floating">
+                                <input type="text" name="username" id="username" class="form-control" placeholder="Username" required>
+                                
+                                <label for="floatingInput">Username</label>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12 col-md-12 col-12"> 
+                            <div class="form-floating">
+                                <input type="password" id="password" name="password" class="form-control" required>
+                                
+                                <label for="floatingInput">Password</label>
+                            </div>
+                        </div>
+
+                        <input type="hidden" value="false" name="guest">
+
+                        <div class="col-lg-4 col-12 ms-auto">
+                            <button type="submit" class="form-control">Submit</button>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+{% endblock content %}

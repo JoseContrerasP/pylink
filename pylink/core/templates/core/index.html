@@ -1,0 +1,288 @@
+{% extends 'base.html' %}
+
+{% block title %} | home{% endblock title %}
+
+{% block content %}
+<section class="hero-section d-flex justify-content-center align-items-center" id="section_1">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-lg-8 col-12 mx-auto">
+                <h1 class="text-white text-center">Shorten. Share. Track</h1>
+
+                <h6 class="text-center">Powerful link management made simple.</h6>
+
+                <form method="POST" class="custom-form mb-lg-0" action="">
+                    {% csrf_token %}
+
+                    <input type="hidden" value="url_shortener" name="concern">
+
+                    <div class="input-group input-group-lg">
+                        <span class="input-group-text" id="basic-addon1">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 16 16"><path fill="currentColor" fill-rule="evenodd" d="M3.47 6.53a.75.75 0 0 1 1.06 1.061l-.727.727a2.743 2.743 0 0 0 3.879 3.879l.727-.727a.75.75 0 0 1 1.06 1.06l-.726.727a4.243 4.243 0 0 1-6-6zm8 1.879a.75.75 0 0 0 1.06 1.06l.727-.726a4.243 4.243 0 0 0-6-6l-.727.727a.75.75 0 0 0 1.061 1.06l.727-.727a2.743 2.743 0 0 1 3.879 3.879zm-.94-1.879a.75.75 0 1 0-1.06-1.06l-4 4a.75.75 0 1 0 1.06 1.06z" clip-rule="evenodd"/></svg>
+                        </span>
+
+                        <input name="long_url" type="url" class="form-control" id="keyword" value="{% if long_url %}{{ long_url}}{% endif %}" placeholder="Enter long link here" required>
+
+                        <button type="submit" class="form-control">Shorten</button>
+                    </div>
+
+                    <!-- #2 -->
+                    {% if shortened_url %}
+                    <div class="input-group input-group-lg mt-5 copy-link">
+                        <span class="input-group-text" id="basic-addon1">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 256 256"><path fill="currentColor" d="M195.8 60.2a28 28 0 0 0-39.51-.09l-11.61 12.17a12 12 0 1 1-17.36-16.56L139 43.43l.2-.2a52 52 0 0 1 73.54 73.54l-.2.2l-12.29 11.71a12 12 0 0 1-16.56-17.36l12.17-11.61a28 28 0 0 0-.06-39.51m-84.48 123.52l-11.61 12.17a28 28 0 0 1-39.6-39.6l12.17-11.61a12 12 0 0 0-16.56-17.36L43.43 139l-.2.2a52 52 0 0 0 73.54 73.54l.2-.2l11.71-12.29a12 12 0 1 0-17.36-16.56ZM216 148h-24a12 12 0 0 0 0 24h24a12 12 0 0 0 0-24M40 108h24a12 12 0 0 0 0-24H40a12 12 0 0 0 0 24m120 72a12 12 0 0 0-12 12v24a12 12 0 0 0 24 0v-24a12 12 0 0 0-12-12M96 76a12 12 0 0 0 12-12V40a12 12 0 0 0-24 0v24a12 12 0 0 0 12 12"/></svg>
+                        </span>
+
+                        <input name="keyword" type="url" class="form-control copy-link-input" id="keyword" value="{{ shortened_url }}" readonly>
+
+                        <button type="button" class="form-control copy-link-button">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M8 4v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7.242a2 2 0 0 0-.602-1.43L16.083 2.57A2 2 0 0 0 14.685 2H10a2 2 0 0 0-2 2"/><path d="M16 18v2a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h2"/></g></svg>Copy
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+        <div class="row justify-content-center mt-4">
+            <div class="col-lg-10 col-12 mb-4 mb-lg-0">
+                <div class="custom-block bg-white shadow-lg">
+                    <div class="d-flex align-items-center justify-content-evenly">
+                      <!-- <div class="col-lg-2">
+                        <a href="" class="btn btn-1">Share</a>
+                      </div> -->
+                      <!-- <div class="col-lg-2">
+                        <a href="" class="btn btn-1">Share</a>
+                      </div> -->
+
+                      <div class="dropdown">
+                        <button class="btn-1" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                          Share
+                        </button>
+                        <ul class="dropdown-menu p-2">
+                          <li>
+                            <a class="dropdown-item d-flex align-items-center" href="https://www.facebook.com/sharer/sharer.php?u={{ shortened_url }}" target="_blank">
+                              <i class="bi bi-facebook me-2 text-primary fs-5"></i> Facebook
+                            </a>
+                          </li>
+                          <li>
+                            <a class="dropdown-item d-flex align-items-center" href="https://twitter.com/intent/tweet?url={{ shortened_url }}&text=Check this out!" target="_blank">
+                              <i class="bi bi-twitter me-2 fs-5"></i> Twitter / X
+                            </a>
+                          </li>
+                          <li>
+                            <a class="dropdown-item d-flex align-items-center" href="https://wa.me/?text={{ shortened_url }}" target="_blank">
+                              <i class="bi bi-whatsapp me-2 text-success fs-5"></i> WhatsApp
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+                      <div class="col-lg-2">
+                        <a href="{{ long_url }}" target="_blank" class="btn btn-3">Visit URL</a>
+                      </div>
+                      
+                      <form action="" method="POST" class="col-lg-2">
+                        {% csrf_token %}
+                        <input type="hidden" value="btn_group" name="concern">  
+                        <input type="hidden" value="{{ linky.id }}" name="linky">  
+
+                        <div class="dropdown" id="div-dropdown">
+                          <button type="button" class="p-3" data-bs-toggle="dropdown" aria-expanded="false">QR Code</button>
+                          <ul class="dropdown-menu">
+                            <li class="row justify-content-center">
+                              <img id="src" src="{{ linky_qr_code.qr_image.url }}" alt="" class="col-lg-12" crossOrigin="anonymous">
+                              <div class="row download-qr-btn-group">
+                                <button class="download-qr-btn block" type="button" data-type="image/png">PNG</button>
+                                <button class="download-qr-btn block" type="button" data-type="image/jpeg">JPG</button>
+                                <button class="download-qr-btn block" type="button" data-type="image/webp">WebP</button>
+                              </div>
+                            </li>
+                          </ul>
+                        </div>
+                      </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% else %}
+              </form>
+            </div>
+        </div>
+        {% endif %}
+
+    </div>
+</section>
+
+
+<section class="explore-section section-padding section-bg" id="section_2">
+    <div class="container">
+        <div class="row">
+
+          <div class="col-12 text-center">
+              <h2 class="mb-4">My URLs</h2>
+          </div>
+          {% if my_urls %}
+            <div class="col-lg-12 col-12 ">
+              <div class="d-flex justify-content-center">
+                <form method="GET" class="custom-form mb-5 col-lg-8 col-12 d-block" action="">
+                  <div class="input-group input-group-lg">
+                    <span class="input-group-text" id="basic-addon1">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 24 24"><g fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M10.76 13.24c-2.34 -2.34 -2.34 -6.14 0 -8.49c2.34 -2.34 6.14 -2.34 8.49 0c2.34 2.34 2.34 6.14 0 8.49c-2.34 2.34 -6.14 2.34 -8.49 0Z"/><path d="M10.5 13.5l-7.5 7.5"/></g></svg>
+                  </span>
+
+                    <input name="query" type="search" class="form-control" id="query" value="{% if query %}{{ query }}{% endif %}" placeholder="Enter long link here" aria-label="Search" value="{{ query }}" required>
+
+                    <button type="submit" class="form-control" id="search-btn">Search</button>
+                  </div>
+                </form>
+              </div>
+
+              <div class="row">
+              {% for my_url in my_urls %}
+              <div class="col-lg-6 col-md-6 col-12 mb-3">
+              <form action="" method="POST">  
+                {% csrf_token %}
+                <input type="hidden" value="my_urls_form" name="concern">
+
+                  <div class="d-none row align-items-center justify-content-center" id="link-input-name-{{ my_url.id }}">
+                  <div class="rounded-start-pill bg-white col-9 first-part-border p-0 ps-1" id="my-url-input">
+                    <p class="floatingInput-impostor justify-content-end align-items-center d-inline" id="input-short-url-first-part">{{ host }}</p><input type="text" name="input_short_url {{ my_url.id }}" id="input-short-url-second-part" class="floatingInput-impostor ps-0 d-inline-block" value="{{ my_url.short_url }}" pattern="[0-9A-Za-z]{7}" title="Exactly 7 letters or digits" size="7" required>
+
+                    <input type="url" name="input_long_url {{ my_url.id }}" id="edit_long_url" class="paragraph-impostor col-12 pt-0" value="{{ my_url.long_url }}" required>
+                  </div>                            
+
+                  <div class="col-1 rounded-end-pill bg-white second-part-border d-flex justify-content-end">
+                    <button class="" name="btn" value="edit {{ my_url.id }} {{ my_url.short_url }} {{ my_url.long_url }}">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="0 0 48 48"><path fill="#15e615" fill-rule="evenodd" stroke="#15e615" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="m4 24l5-5l10 10L39 9l5 5l-25 25z" clip-rule="evenodd"/></svg>
+                    </button>
+                      
+                  </div>
+                </div>
+
+                <!-- input-impostor -->
+
+                <div class="row align-items-center justify-content-center" id="link-name-{{ my_url.id }}">
+                  <div class="rounded-start-pill bg-white col-9 first-part-border">
+                    <h5 class="floatingInput-impostor">{{ host }}{{ my_url.short_url }}</h5>
+                    <p class="paragraph-impostor text-nowrap">{{ my_url.long_url }}</p>
+                  </div>                            
+
+                  <div class="col-1 rounded-end-pill bg-white second-part-border d-flex justify-content-end">
+
+                      <div class="dropdown-dropstart">
+                        <button class="dropdown-toggle bg-white" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        </button>
+                        <ul class="dropdown-menu second-part-border">
+                          <li>
+                            <button class="dropdown-item link-edit" link-id="{{ my_url.id }}">
+                                <svg class="me-2" xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"/></g></svg>Edit
+                            </button>
+                          </li>
+                          <li class="copy-short-link">
+                            <input type="hidden" value="{{ host }}{{ my_url.short_url }}" class="copy-short-link-input">
+                            <button class="dropdown-item copy-short-link-button custom-copy-button" type="button">
+                              <svg class="me-2" xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M8 4v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7.242a2 2 0 0 0-.602-1.43L16.083 2.57A2 2 0 0 0 14.685 2H10a2 2 0 0 0-2 2"/><path d="M16 18v2a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h2"/></g></svg>Copy
+                            </button>
+                          </li>
+
+                          <li>
+                            <button class="qr-show dropdown-item" type="button" qr-id="{{ my_url.qr_code.id }}">
+                              <svg class="me-2" xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="0 0 24 24"><path fill="#717275" d="M11.12 6.96v2.595a1.57 1.57 0 0 1-.968 1.484a1.6 1.6 0 0 1-.612.123h-2.6a1.59 1.59 0 0 1-1.59-1.577V6.99a1.585 1.585 0 0 1 1.59-1.587h2.6a1.59 1.59 0 0 1 1.58 1.557m0 7.495v2.595a1.585 1.585 0 0 1-1.58 1.587h-2.6a1.59 1.59 0 0 1-1.59-1.587v-2.595a1.585 1.585 0 0 1 1.59-1.577h2.6a1.58 1.58 0 0 1 1.58 1.577m7.54-7.495v2.595a1.585 1.585 0 0 1-1.54 1.607h-2.59a1.59 1.59 0 0 1-1.59-1.577V6.99a1.585 1.585 0 0 1 1.59-1.587h2.59a1.59 1.59 0 0 1 1.54 1.557m0 7.515v2.595a1.585 1.585 0 0 1-1.54 1.587h-2.59a1.59 1.59 0 0 1-1.59-1.587v-2.595a1.586 1.586 0 0 1 1.59-1.577h2.59a1.59 1.59 0 0 1 1.54 1.577"/><path fill="#717275" d="M21.25 9.695a.76.76 0 0 1-.75-.749V5.862a2.3 2.3 0 0 0-.68-1.686a2.35 2.35 0 0 0-1.65-.679h-3.05a.75.75 0 0 1-.75-.748a.75.75 0 0 1 .75-.749h3.08a3.86 3.86 0 0 1 2.68 1.178A3.8 3.8 0 0 1 22 5.882v3.084a.75.75 0 0 1-.75.729M18.17 22h-3.05a.75.75 0 0 1-.75-.748a.75.75 0 0 1 .75-.749h3.08a2.32 2.32 0 0 0 2.137-1.462a2.3 2.3 0 0 0 .163-.893v-3.054a.75.75 0 0 1 .75-.749a.75.75 0 0 1 .75.749v3.054a3.81 3.81 0 0 1-2.363 3.534c-.465.191-.964.29-1.467.288zm-9.25 0H5.84a3.85 3.85 0 0 1-2.722-1.13A3.83 3.83 0 0 1 2 18.149v-3.054a.75.75 0 0 1 .75-.749a.75.75 0 0 1 .75.749v3.054a2.334 2.334 0 0 0 2.34 2.325h3.08a.75.75 0 0 1 .75.749a.747.747 0 0 1-.75.748zM2.75 9.695A.76.76 0 0 1 2 8.946V5.862a3.8 3.8 0 0 1 1.12-2.684A3.86 3.86 0 0 1 5.83 2.06h3.08a.75.75 0 0 1 .75.749a.75.75 0 0 1-.75.748H5.83a2.333 2.333 0 0 0-2.34 2.325v3.084a.75.75 0 0 1-.74.729"/></svg>QR Code
+                            </button>
+                            <div class="row d-none" id="qr-div-name-{{ my_url.qr_code.id }}">
+                              <img id="src" src="{{ my_url.qr_code.qr_image.url }}" alt="" class="col-lg-12" crossOrigin="anonymous">
+                              <div class="row download-qr-btn-group">
+                                <ul>
+                                  <li>
+                                    <button class="dropdown-item download-qr-btn block" type="button" data-type="image/png">Download PNG</button>
+                                  </li>
+                                  <li>
+                                    <button class="dropdown-item download-qr-btn block" type="button" data-type="image/jpeg">Download JPG</button>
+                                  </li>
+                                  <li>
+                                    <button class="dropdown-item download-qr-btn block" type="button" data-type="image/webp">Download WebP</button>
+                                  </li>
+                                </ul>
+                              </div>
+                            </div>
+                          </li>
+
+                          <li><hr class="dropdown-divider"></li>
+                          <li>
+                            <button class="dropdown-item custom-delete-button" name="btn" value="delete {{ my_url.id }}">
+                              <svg class="me-2" xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="0 0 1024 1024"><path fill="currentColor" d="M360 184h-8c4.4 0 8-3.6 8-8zh304v-8c0 4.4 3.6 8 8 8h-8v72h72v-80c0-35.3-28.7-64-64-64H352c-35.3 0-64 28.7-64 64v80h72zm504 72H160c-17.7 0-32 14.3-32 32v32c0 4.4 3.6 8 8 8h60.4l24.7 523c1.6 34.1 29.8 61 63.9 61h454c34.2 0 62.3-26.8 63.9-61l24.7-523H888c4.4 0 8-3.6 8-8v-32c0-17.7-14.3-32-32-32M731.3 840H292.7l-24.2-512h487z" stroke-width="15" stroke="currentColor"/></svg>Delete
+                            </button>
+                          </li>
+                        </ul>
+                      </div>
+                  </div>
+                </div>
+                </form>
+              </div>
+              {% endfor %}
+
+            </div>
+        </div>
+      {% else %}
+        <div class="row">
+          s
+        </div>
+      {% endif %}
+      </div>
+    </div>
+</section>
+
+<section class="timeline-section section-padding" id="section_3">
+    <div class="section-overlay"></div>
+
+    <div class="container">
+        <div class="row">
+
+            <div class="col-12 text-center">
+                <h2 class="text-white mb-4">How does it work?</h1>
+            </div>
+
+            <div class="col-lg-10 col-12 mx-auto">
+                <div class="timeline-container">
+                    <ul class="vertical-scrollable-timeline" id="vertical-scrollable-timeline">
+                        <div class="list-progress">
+                            <div class="inner"></div>
+                        </div>
+
+                        <li>
+                            <h4 class="text-white mb-3">Make your URL shorter</h4>
+
+                            <p class="text-white ps-4">PyLink generates a 7-character code made up of numbers and letters. You can also generate a QR code and share your shortened URLs on major social media.</p>
+
+                            <div class="icon-holder">
+                              <!-- <i class="bi-search"></i> -->
+                              <svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 48 48"><g fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"><path d="M16 12V4H32V12"/><path d="M32 36V44H16V36"/><path d="M18 24L4 24"/><path d="M44 24L30 24"/><path d="M24 34V14"/><path d="M13 19L18 24L13 29"/><path d="M35 19L30 24L35 29"/></g></svg>
+                            </div>
+                        </li>
+                        
+                        <li>
+                            <h4 class="text-white mb-3">Manage your links easily</h4>
+
+                            <p class="text-white ps-4">When you sign up, every shortened URL is stored in your personal dashboard. From there, you can copy, edit, delete, or search for any link you’ve created, keeping everything organized and easy to access.</p>
+
+                            <div class="icon-holder">
+                              <i class="bi-bookmark"></i>
+                            </div>
+                        </li>
+
+                        <li>
+                            <h4 class="text-white mb-3">Keep everything in one place</h4>
+
+                            <p class="text-white ps-4">Your saved links stay connected to your account, so you can return anytime and manage them without hassle. Whether you’re on desktop or mobile, your URLs are always available when you need them.</p>
+
+                            <div class="icon-holder">
+                              <i class="bi-book"></i>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}
