@@ -38,6 +38,52 @@ def generate_short_url(length=7):
     return short_url
 
 
+def generate_qr_code(
+    link, modify=False, size=300, fill_color="black", back_color="white"
+):
+    qr_data = link.long_url
+
+    qr = qrcode.QRCode(
+        version=1,
+        error_correction=qrcode.constants.ERROR_CORRECT_L,
+        box_size=10,
+        border=4,
+    )
+    qr.add_data(qr_data)
+    qr.make(fit=True)
+
+    img = qr.make_image(fill_color=fill_color, back_color=back_color)
+
+    buffer = BytesIO()
+    img.save(buffer, format="PNG")
+    buffer.seek(0)
+
+    public_id = f"qr_{hash(qr_data)}_{size}"
+
+    upload_result = cloudinary.uploader.upload(
+        buffer,
+        folder="qr_codes/",
+        public_id=public_id,
+        overwrite=True,
+        resource_type="image",
+    )
+
+    if modify:
+        qr_instance = link.qr_code
+
+    else:
+        qr_instance = QRCode.objects.create(
+            link_id=link,
+            public_id=upload_result["public_id"],
+            size=size,
+            fill_color=fill_color,
+            back_color=back_color,
+        )
+
+    qr_instance.qr_image = upload_result["public_id"]
+    qr_instance.save()
+
+
 def index(request):
     shortened_url = ""
     long_url = ""
@@ -78,46 +124,7 @@ def index(request):
 
                 link.save()
 
-                qr_data = long_url
-                size = int(request.POST.get("size", 300))
-                fill_color = request.POST.get("fill_color", "black")
-                back_color = request.POST.get("back_color", "white")
-
-                qr = qrcode.QRCode(
-                    version=1,
-                    error_correction=qrcode.constants.ERROR_CORRECT_L,
-                    box_size=10,
-                    border=4,
-                )
-                qr.add_data(qr_data)
-                qr.make(fit=True)
-
-                img = qr.make_image(fill_color=fill_color, back_color=back_color)
-
-                buffer = BytesIO()
-                img.save(buffer, format="PNG")
-                buffer.seek(0)
-
-                public_id = f"qr_{hash(qr_data)}_{size}"
-
-                upload_result = cloudinary.uploader.upload(
-                    buffer,
-                    folder="qr_codes/",
-                    public_id=public_id,
-                    overwrite=True,
-                    resource_type="image",
-                )
-
-                qr_instance = QRCode.objects.create(
-                    link_id=link,
-                    public_id=upload_result["public_id"],
-                    size=size,
-                    fill_color=fill_color,
-                    back_color=back_color,
-                )
-
-                qr_instance.qr_image = upload_result["public_id"]
-                qr_instance.save()
+                generate_qr_code(link=link)
 
                 linky = link
 
@@ -172,51 +179,14 @@ def index(request):
 
                         linky.save()
 
+                        generate_qr_code(link=linky, modify=True)
+
                         break
 
             elif query_btn[0] == "btn_qr_code":
                 link_instance = Link.objects.get(id=query_btn[1])
 
-                qr_data = link_instance.long_url
-                size = int(request.POST.get("size", 300))
-                fill_color = request.POST.get("fill_color", "black")
-                back_color = request.POST.get("back_color", "white")
-
-                qr = qrcode.QRCode(
-                    version=1,
-                    error_correction=qrcode.constants.ERROR_CORRECT_L,
-                    box_size=10,
-                    border=4,
-                )
-                qr.add_data(qr_data)
-                qr.make(fit=True)
-
-                img = qr.make_image(fill_color=fill_color, back_color=back_color)
-
-                buffer = BytesIO()
-                img.save(buffer, format="PNG")
-                buffer.seek(0)
-
-                public_id = f"qr_{hash(qr_data)}_{size}"
-
-                upload_result = cloudinary.uploader.upload(
-                    buffer,
-                    folder="qr_codes/",
-                    public_id=public_id,
-                    overwrite=True,
-                    resource_type="image",
-                )
-
-                qr_instance = QRCode.objects.create(
-                    link_id=link_instance,
-                    public_id=upload_result["public_id"],
-                    size=size,
-                    fill_color=fill_color,
-                    back_color=back_color,
-                )
-
-                qr_instance.qr_image = upload_result["public_id"]
-                qr_instance.save()
+                generate_qr_code(link=link_instance)
 
             return redirect("core:index")
 
@@ -225,46 +195,7 @@ def index(request):
             linky_id = request.POST["linky"]
             link_instance = Link.objects.get(id=linky_id)
 
-            qr_data = link_instance.long_url
-            size = int(request.POST.get("size", 300))
-            fill_color = request.POST.get("fill_color", "black")
-            back_color = request.POST.get("back_color", "white")
-
-            qr = qrcode.QRCode(
-                version=1,
-                error_correction=qrcode.constants.ERROR_CORRECT_L,
-                box_size=10,
-                border=4,
-            )
-            qr.add_data(qr_data)
-            qr.make(fit=True)
-
-            img = qr.make_image(fill_color=fill_color, back_color=back_color)
-
-            buffer = BytesIO()
-            img.save(buffer, format="PNG")
-            buffer.seek(0)
-
-            public_id = f"qr_{hash(qr_data)}_{size}"
-
-            upload_result = cloudinary.uploader.upload(
-                buffer,
-                folder="qr_codes/",
-                public_id=public_id,
-                overwrite=True,
-                resource_type="image",
-            )
-
-            qr_instance = QRCode.objects.create(
-                link_id=link_instance,
-                public_id=upload_result["public_id"],
-                size=size,
-                fill_color=fill_color,
-                back_color=back_color,
-            )
-
-            qr_instance.qr_image = upload_result["public_id"]
-            qr_instance.save()
+            generate_qr_code(link=link_instance)
 
     else:
         form = NewLinkForm()

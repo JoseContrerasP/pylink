@@ -8,10 +8,12 @@ done
 
 echo "MIGRATING"
 
-python pylink/manage.py makemigrations
-python pylink/manage.py migrate
+# python pylink/manage.py makemigrations
+# python pylink/manage.py migrate
 
 # python pylink/manage.py runserver 0:8000
+
+python pylink/manage.py collectstatic --noinput
 
 cd pylink
 

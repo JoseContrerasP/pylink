@@ -648,6 +648,19 @@ strong {
   color: var(--primary-color);
 }
 
+#share-btn:hover {
+  color: var(--white-color);
+  background-color: var(--secondary-color);
+}
+
+.hero-section #div-dropdown .qr_code_btn {
+  padding: 1.2rem;
+}
+
+.hero-section #div-dropdown .qr_code_btn:hover {
+  color: var(--white-color);
+  background-color: var(--secondary-color);
+}
 
 /*---------------------------------------
   My_URLs              

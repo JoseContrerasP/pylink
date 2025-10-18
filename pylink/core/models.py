@@ -11,6 +11,9 @@ class Link(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        ordering = ("-updated_at",)
+
 
 class QRCode(models.Model):
     link_id = models.OneToOneField(

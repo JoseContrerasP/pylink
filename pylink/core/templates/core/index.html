@@ -34,7 +34,7 @@
                             <svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 256 256"><path fill="currentColor" d="M195.8 60.2a28 28 0 0 0-39.51-.09l-11.61 12.17a12 12 0 1 1-17.36-16.56L139 43.43l.2-.2a52 52 0 0 1 73.54 73.54l-.2.2l-12.29 11.71a12 12 0 0 1-16.56-17.36l12.17-11.61a28 28 0 0 0-.06-39.51m-84.48 123.52l-11.61 12.17a28 28 0 0 1-39.6-39.6l12.17-11.61a12 12 0 0 0-16.56-17.36L43.43 139l-.2.2a52 52 0 0 0 73.54 73.54l.2-.2l11.71-12.29a12 12 0 1 0-17.36-16.56ZM216 148h-24a12 12 0 0 0 0 24h24a12 12 0 0 0 0-24M40 108h24a12 12 0 0 0 0-24H40a12 12 0 0 0 0 24m120 72a12 12 0 0 0-12 12v24a12 12 0 0 0 24 0v-24a12 12 0 0 0-12-12M96 76a12 12 0 0 0 12-12V40a12 12 0 0 0-24 0v24a12 12 0 0 0 12 12"/></svg>
                         </span>
 
-                        <input name="keyword" type="url" class="form-control copy-link-input" id="keyword" value="{{ shortened_url }}" readonly>
+                        <input name="keyword_readonly" type="url" class="form-control copy-link-input" id="keyword_readonly" value="{{ shortened_url }}" readonly>
 
                         <button type="button" class="form-control copy-link-button">
                           <svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M8 4v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7.242a2 2 0 0 0-.602-1.43L16.083 2.57A2 2 0 0 0 14.685 2H10a2 2 0 0 0-2 2"/><path d="M16 18v2a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h2"/></g></svg>Copy
@@ -56,7 +56,7 @@
                       </div> -->
 
                       <div class="dropdown">
-                        <button class="btn-1" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <button id="share-btn" class="btn-1" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                           Share
                         </button>
                         <ul class="dropdown-menu p-2">
@@ -87,7 +87,7 @@
                         <input type="hidden" value="{{ linky.id }}" name="linky">  
 
                         <div class="dropdown" id="div-dropdown">
-                          <button type="button" class="p-3" data-bs-toggle="dropdown" aria-expanded="false">QR Code</button>
+                          <button type="button" class="qr_code_btn" data-bs-toggle="dropdown" aria-expanded="false">QR Code</button>
                           <ul class="dropdown-menu">
                             <li class="row justify-content-center">
                               <img id="src" src="{{ linky_qr_code.qr_image.url }}" alt="" class="col-lg-12" crossOrigin="anonymous">
@@ -224,9 +224,7 @@
             </div>
         </div>
       {% else %}
-        <div class="row">
-          s
-        </div>
+        <p class="text-center">Welcome! You haven’t shortened any links yet. {% if not request.user.is_authenticated %}<br><a href="{% url 'core:signin' %}">Sign up</a> now to start shortening your links and keep track of your clicks.{% endif %} <br> Paste your first URL <a href="#section_1" onclick="document.getElementById('keyword').focus(); return false;">above</a> and see how easy it is!</p>
       {% endif %}
       </div>
     </div>
